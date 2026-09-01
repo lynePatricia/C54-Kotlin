@@ -32,12 +32,12 @@ class AjouterActivity : AppCompatActivity() {
             var text = champMemo.text.toString()
 
             //MODE_APPEND pour qu'il écrive à la fin du fichier
-            val fos = openFileOutput("fichier.txt", MODE_APPEND)
+            val fos = openFileOutput("fichier.txt", MODE_APPEND) //écrire à la fin du fichier
             val osw = OutputStreamWriter(fos) //transforme le flux binaire en flux de caractères
             val bw = BufferedWriter(osw)
 
             bw.use {
-                //use exécute le bloc et ferme les flux de données remplace le close
+                //use exécute le bloc et ferme les flux de données (les ressources) remplace le close
                 //fonction de haut niveau prend un paramètre lambda
                 bw.write(text)
                 bw.newLine()
