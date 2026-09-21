@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.remote.creation.compose.state.log
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import android.util.Log
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,13 +18,38 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        log.i("cycle", "onCreate")
+        Log.i("cycle", "onCreate")
         println("onCreate")
 
     }
 
     override fun onStart() {
         super.onStart()
-        log.i("cycle", "onStart")
+        Log.i("cycle", "onStart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i("cycle", "onResume")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.i("cycle", "onRestart")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.i("cycle", "onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.i("cycle", "onStop")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i("cycle", "onDestroy")
     }
 }

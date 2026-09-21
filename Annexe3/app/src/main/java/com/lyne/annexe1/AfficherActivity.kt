@@ -1,4 +1,4 @@
-package com.kawtar.annexe1
+package com.lyne.annexe3
 
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
-import com.kawtar.annexe1.R
+import com.lyne.annexe3.R
 import java.io.BufferedReader
 import java.io.FileNotFoundException
 import java.io.InputStreamReader

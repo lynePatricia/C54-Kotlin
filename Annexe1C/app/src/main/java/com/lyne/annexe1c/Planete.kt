@@ -6,4 +6,7 @@ data class Planete (var nom: String, var nbSatellites:Int) {
 
     //constructeur primaire, on ne peut pas faire d'autres initialisations, seulement y passer des paramètres
     // le constructeur n'a pas de code
+    override fun toString(): String {
+        return "$nom ($nbSatellites satellites)"
+    }
 }

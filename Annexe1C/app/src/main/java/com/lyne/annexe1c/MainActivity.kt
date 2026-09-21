@@ -2,6 +2,7 @@ package com.lyne.annexe1c
 
 import android.os.Bundle
 import android.widget.EditText
+import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -15,14 +16,12 @@ import java.io.FileOutputStream
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
 import java.util.Scanner
-import kotlin.math.log
+import android.util.Log
+import android.widget.ArrayAdapter
 
 class MainActivity : AppCompatActivity() {
     lateinit var nbreLignes: TextView
-    lateinit var nbreChar : TextView
-    lateinit var nbreDeC : TextView
-    lateinit var nbreDeMots : TextView
-    lateinit var nom : EditText
+    lateinit var liste: ListView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,122 +32,70 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-//        nbreLignes = findViewById(R.id.nombreLigne)
-//        nbreChar = findViewById(R.id.nbrCaract)
-//        nbreDeC = findViewById(R.id.nbreDeC)
-//        nbreDeMots = findViewById(R.id.nbreDeMots)
-//        nom = findViewById(R.id.editScan)
+        nbreLignes = findViewById(R.id.nbreLignes)
+        liste = findViewById(R.id.listePlanetes)
 
-        nbreLignes.text = "Nombre de lignes : " + calculerNbLignes().toString()
-        nbreChar.text = "Nombre de caractères : " + calculerNbreChar().toString()
-        nbreDeC.text = "Nombre de 'c' : " + calculerNombreDeC().toString()
-        nbreDeMots.text = "Nombre de mots : " + calculerNombreMots().toString()
-        ecrireLigne(nom.text.toString())
+        val listePlanetes = chargerPlanetes()
+
+        nbreLignes.text = "Votre fichier compte : ${listePlanetes.size} lignes"
+        if (listePlanetes.size > 3) {
+            Log.i("test", listePlanetes.elementAt(3).nom)
+        }
+
+        liste.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, listePlanetes)
     }
-    fun calculerNbLignes() : Int{
-        val a = ArrayList<String>()
 
+    //optimisation pour lire le fichier une seule fois éviter la redondance
+    fun chargerPlanetes(): ArrayList<Planete> {
+        val v = ArrayList<Planete>()
         try {
-            val fis = openFileInput("fichier.txt")
-            val isr = InputStreamReader(fis)
-            val br = BufferedReader(isr)
-
-            br.forEachLine { ligne -> a.add(ligne) }
-
-        }catch(e : FileNotFoundException)
-        {
-            val toast = Toast.makeText(this, "il n'y a pas de mémo", Toast.LENGTH_LONG)
-            toast.show()
-            finish()
-        }
-        return a.size
-    }
-
-    //autre facon
-    fun nbLignes(): Int{
-        val fis = openFileInput("fichier.txt")
-        val isr = InputStreamReader(fis)
-        val br = BufferedReader(isr)
-        var compteur = 0;
-
-        br.use{
-            for (line in br.lines())
-                compteur++
-
-            //compteur = br.readLines().size
-        }
-        return compteur
-    }
-
-    fun calculerNbreChar(): Int{
-        val fis = openFileInput("fichier.txt")
-        val isr = InputStreamReader(fis)
-        val br = BufferedReader(isr)
-        var compteurChar =0
-
-        br.forEachLine {compteurChar += it.length}
-
-        return compteurChar
-    }
-
-    fun calculerNombreDeC(): Int{
-        val fis = openFileInput("fichier.txt")
-        val isr = InputStreamReader(fis)
-        val br = BufferedReader(isr)
-        var compteurC = 0
-
-        br.forEachLine {
-                line -> for (lettre in line){
-            if(lettre == 'c' || lettre == 'C'){
-                compteurC++
+            val fis = getResources().openRawResource(R.raw.fichierplanete)
+            val s = Scanner(fis)
+            while (s.hasNext()) {
+                val nom = s.next()
+                if (s.hasNextInt()) {
+                    val nbSatellites = s.nextInt()
+                    v.add(Planete(nom, nbSatellites))
+                }
             }
+        } catch (e: FileNotFoundException) {
+            Toast.makeText(this, "Il n'y a pas de fichier raw", Toast.LENGTH_LONG).show()
         }
-        }
-        return compteurC
-    }
-
-    fun ecrireLigne( ligne:String)
-    {
-        val fis : FileOutputStream = openFileOutput("fichier.txt", MODE_APPEND)
-        val isr = OutputStreamWriter(fis)
-        val br = BufferedWriter(isr)
-        br.use {
-            br.write(ligne)
-            br.newLine()
-
-            val toast = Toast.makeText(this,"Mot ajouté", Toast.LENGTH_LONG)
-            toast.show()
-        }
-    }
-
-    fun calculerNombreMots() : Int{
-        var compteur = 0
-        val fis = openFileInput("fichier.txt")
-        val scan = Scanner(fis)
-        //on utilis le delimitateur par défaut
-        scan.use {
-            while(scan.hasNext()){
-                scan.next()
-                compteur++
-            }
-        }
-
-        return compteur
+        return v
     }
 
     fun annexe1C():Int{
-        var total: Int = 0
-        val fis = getResources().openRawResource(R.raw.fichierPlanete)
-        val s = Scanner(fis)
         val v = ArrayList<Planete>()
+        var total: Int = 0
+        try {
+            val fis = getResources().openRawResource(R.raw.fichierplanete)
+            val s = Scanner(fis)
 
-        while(s.hasNext()){
-            var temp = Planete(s.next(), s.nextInt())
-            v.add(temp)
-            total += temp.nbSatellites
+            while(s.hasNext()){
+                var temp = Planete(s.next(), s.nextInt())
+                v.add(temp)
+                total += temp.nbSatellites
+            }
+            Log.i("test", v.elementAt(3).nom)
+        } catch (e: FileNotFoundException) {
+            Toast.makeText(this, "il n'y a pas de fichier raw", Toast.LENGTH_LONG).show()
         }
-        log.i("test", v.elementAt(3).nom)
 
         return v.size
+    }
+    fun afficherListe(): ArrayList<Planete>{
+        val a = ArrayList<Planete>()
+
+        try {
+            val fis = getResources().openRawResource(R.raw.fichierplanete)
+            val s = Scanner(fis)
+            while (s.hasNext()){
+                var temp = Planete(s.next(), s.nextInt())
+                a.add(temp)
+            }
+        } catch (e: FileNotFoundException) {
+            Toast.makeText(this, "il n'y a pas de fichier raw", Toast.LENGTH_LONG).show()
+        }
+        return a
     }
 }
