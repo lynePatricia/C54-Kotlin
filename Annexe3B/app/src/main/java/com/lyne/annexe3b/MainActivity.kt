@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
 
     }
     fun recupererVolumes(){
+        //désérialise
         try {
             val fis = openFileInput("fichier.ser")
             val ois = ObjectInputStream(fis)
