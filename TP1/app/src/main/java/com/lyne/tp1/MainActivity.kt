@@ -1,18 +1,23 @@
 package com.lyne.tp1
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.ImageButton
+import android.widget.Toast
+import android.widget.Toast.LENGTH_LONG
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.media3.common.MediaItem
-import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.ui.PlayerView
+
 
 class MainActivity : AppCompatActivity() {
-    lateinit var vue: PlayerView
-    var player: ExoPlayer?= null
-
+    //var player: ExoPlayer?= null
+    lateinit var onPopMusic: ImageButton
+    lateinit var onRnb: ImageButton
+    lateinit var onJazz: ImageButton
+    lateinit var style : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,19 +28,42 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        onPopMusic = findViewById(R.id.popButton)
+        onRnb = findViewById(R.id.rnbButton)
+        onJazz = findViewById(R.id.jazzButton)
 
-        vue = findViewById(R.id.vue)
-        player = ExoPlayer.Builder(this).build()
-        vue.setUseController(false)
+        val ec = Ecouteur()
+
+        onPopMusic.setOnClickListener(ec)
+        onRnb.setOnClickListener(ec)
+        onJazz.setOnClickListener(ec)
+
+//        vue = findViewById(R.id.vue)
+//        player = ExoPlayer.Builder(this).build()
+//        vue.setUseController(false)
 
     }
-    override fun onStart() {
-        super.onStart()
-        vue.player = player
-        val mp3url = ""
-        val mediaItem = MediaItem.fromUri(mp3url)
-        player?.addMediaItem(mediaItem)
-        player?.prepare()
-        player?.play()
+    inner class Ecouteur : View.OnClickListener{
+        override fun onClick(v : View?){
+            val i = Intent(this@MainActivity, SimpleAdapterActivity::class.java)
+            if(v == onPopMusic)
+                style = "POP"
+            else if(v == onRnb)
+                style = "RNB"
+            else
+                style = "JAZZ"
+
+            i.putExtra("style", style)
+            startActivity(i)
+        }
     }
+//    override fun onStart() {
+//        super.onStart()
+//        vue.player = player
+//        val mp3url = ""
+//        val mediaItem = MediaItem.fromUri(mp3url)
+//        player?.addMediaItem(mediaItem)
+//        player?.prepare()
+//        player?.play()
+//    }
 }

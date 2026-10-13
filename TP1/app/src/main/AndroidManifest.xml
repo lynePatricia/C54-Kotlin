@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TP1">
         <activity
+            android:name=".Lecture"
+            android:exported="false" />
+        <activity
+            android:name=".Modele"
+            android:exported="false" />
+        <activity
             android:name=".SimpleAdapterActivity"
             android:exported="false" />
         <activity
