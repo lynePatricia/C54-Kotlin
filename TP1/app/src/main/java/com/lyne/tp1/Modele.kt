@@ -8,12 +8,12 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.beust.klaxon.Klaxon
 
-class Modele : Sujet{
+object Modele : Sujet{
     private val observateurs = ArrayList<ObservateurMusique>()
     //pour stocker la liste dans le modèle
     var listeMusiques: List<Musique> = emptyList()
 
-    fun lireJSON(context : Context, lien: String){
+    fun lireJSON(context : Context, lien: String): List<Musique> {
 
         val queue = Volley.newRequestQueue(context)
         var url = lien
@@ -29,7 +29,7 @@ class Modele : Sujet{
             { makeText(context, "Ne fonctionne pas", LENGTH_LONG).show() })
 
         queue.add(stringRequest)
-
+        return listeMusiques
     }
 
     override fun ajouterObservateur(o: ObservateurMusique) {
@@ -44,6 +44,5 @@ class Modele : Sujet{
         for (o in observateurs)
             o.actualiser(l)
     }
-
 
 }

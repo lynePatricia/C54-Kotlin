@@ -4,8 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
-import android.widget.Toast
-import android.widget.Toast.LENGTH_LONG
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -45,7 +43,7 @@ class MainActivity : AppCompatActivity() {
     }
     inner class Ecouteur : View.OnClickListener{
         override fun onClick(v : View?){
-            val i = Intent(this@MainActivity, SimpleAdapterActivity::class.java)
+            val i = Intent(this@MainActivity, AffichageActivity::class.java)
             if(v == onPopMusic)
                 style = "POP"
             else if(v == onRnb)
