@@ -5,14 +5,14 @@
     android:layout_height="100dp">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/idCover"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         app:srcCompat="@drawable/sienna" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/idTitre"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -21,11 +21,12 @@
         android:text="TextView" />
 
     <TextView
-        android:id="@+id/artiste"
+        android:id="@+id/idArtist"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:gravity="center"
         android:text="TextView" />
+
 </LinearLayout>

@@ -10,10 +10,8 @@ import com.beust.klaxon.Klaxon
 
 object Modele : Sujet{
     private val observateurs = ArrayList<ObservateurMusique>()
-    //pour stocker la liste dans le modèle
-    var listeMusiques: List<Musique> = emptyList()
 
-    fun lireJSON(context : Context, lien: String): List<Musique> {
+    fun lireJSON(context : Context, lien: String) {
 
         val queue = Volley.newRequestQueue(context)
         var url = lien
@@ -23,13 +21,33 @@ object Modele : Sujet{
             url,
             { reponse ->
                 val li: ListeMusique = Klaxon().parse<ListeMusique>(reponse) ?: ListeMusique()
-                listeMusiques = li.musiques //stocke la liste dans le modèle
                 avertirObservateurs(li)
             },
             { makeText(context, "Ne fonctionne pas", LENGTH_LONG).show() })
 
+//        val stringRequest = StringRequest(
+//            Request.Method.GET,
+//            url,
+//            { reponse ->
+//                try {
+//                    val li: ListeMusique = Klaxon().parse<ListeMusique>(reponse) ?: ListeMusique()
+//                    avertirObservateurs(li)
+//                    makeText(context, "allo", LENGTH_LONG).show()
+//                } catch (e: Exception) {
+//                    // Affiche l'erreur de parsing Klaxon dans les logs
+//                    e.printStackTrace()
+//                    makeText(context, "Erreur Parse: ${e.message}", LENGTH_LONG).show()
+//                }
+//            },
+//            { error ->
+//                // Affiche l'erreur réseau exacte
+//                error.printStackTrace()
+//                val messageErreur = error.networkResponse?.statusCode?.toString() ?: error.message ?: "Erreur inconnue"
+//                makeText(context, "Erreur réseau: $messageErreur", LENGTH_LONG).show()
+//            }
+//        )
+
         queue.add(stringRequest)
-        return listeMusiques
     }
 
     override fun ajouterObservateur(o: ObservateurMusique) {

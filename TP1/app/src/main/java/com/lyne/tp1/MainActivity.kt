@@ -11,7 +11,6 @@ import androidx.core.view.WindowInsetsCompat
 
 
 class MainActivity : AppCompatActivity() {
-    //var player: ExoPlayer?= null
     lateinit var onPopMusic: ImageButton
     lateinit var onRnb: ImageButton
     lateinit var onJazz: ImageButton
@@ -36,10 +35,6 @@ class MainActivity : AppCompatActivity() {
         onRnb.setOnClickListener(ec)
         onJazz.setOnClickListener(ec)
 
-//        vue = findViewById(R.id.vue)
-//        player = ExoPlayer.Builder(this).build()
-//        vue.setUseController(false)
-
     }
     inner class Ecouteur : View.OnClickListener{
         override fun onClick(v : View?){
@@ -55,13 +50,4 @@ class MainActivity : AppCompatActivity() {
             startActivity(i)
         }
     }
-//    override fun onStart() {
-//        super.onStart()
-//        vue.player = player
-//        val mp3url = ""
-//        val mediaItem = MediaItem.fromUri(mp3url)
-//        player?.addMediaItem(mediaItem)
-//        player?.prepare()
-//        player?.play()
-//    }
 }

@@ -36,7 +36,7 @@ android {
 }
 
 dependencies {
-    implementation("com.github.bumptech.glide:glide:4.7.0")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.android.volley:volley:1.2.1")
     implementation("com.beust:klaxon:5.5")
     implementation ("androidx.media3:media3-exoplayer:1.11.1")
