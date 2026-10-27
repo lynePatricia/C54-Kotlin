@@ -61,6 +61,7 @@ class AffichageActivity : AppCompatActivity(), ObservateurMusique {
             temp.put("titre", i.trackName)
             temp.put("artiste", i.artistName)
             temp.put("cover", i.artworkUrl100)
+            temp.put("extrait", i.previewUrl)
 
             remplir.add(temp)
             println("liste = " + listes.results.size)
@@ -74,8 +75,9 @@ class AffichageActivity : AppCompatActivity(), ObservateurMusique {
         liste.adapter = adapteur
         liste.setOnItemClickListener{_, _, position, _ ->
             Toast.makeText(this, remplir.get(position).get("titre").toString(), LENGTH_LONG).show()
-            val i = Intent(this@AffichageActivity, Lecture::class.java)
-            i.putExtra("son", remplir.get(position))
+            val i = Intent(this@AffichageActivity, LectureActivity::class.java)
+            i.putExtra("liste", remplir)
+            i.putExtra("position", position)
             startActivity(i)
         }
 
